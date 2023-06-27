@@ -1,5 +1,5 @@
 
-use crate::shape::{Circle,Rect,Polygon,Shape};
+use crate::shape::{Circle,Rect,Shape};
 use crate::vector::Vec2;
 
 
@@ -79,40 +79,6 @@ pub fn rect_vs_rect(r1:&Rect,r2:&Rect) -> bool {
     false
 }
 
-/// evaluate collision between a polygon and an axis point
-pub fn poly_vs_point(vertex:Vec<Vec2>,pt:&Vec2) -> bool {
-
-    let length = vertex.len();
-    let mut next = 0;
-    let mut collide = false;
-
-    for i in 0..length {
-
-        next = i + 1;
-
-        // the last vec2 next is the first one
-        if next == length  {
-            next = 0;
-        }
-
-        let vc = vertex[i];
-        let vn = vertex[next];
-
-
-        if ((vc.x > pt.y && vn.y < pt.y) || (vc.y < pt.y && vn.y > pt.y)) &&
-            (pt.x < (vn.x - vc.x) * (pt.y-vc.y) / (vn.y - vc.y)+ vc.x) {
-            // flip the boolean
-            collide = !collide;
-
-        }
-
-
-    }
-
-
-    collide
-
-}
 
 /// evaluate collision between rectangle and an axis point
 pub fn rect_vs_point(r1:&Rect,p1:&Vec2) -> bool {

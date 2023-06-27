@@ -1,7 +1,6 @@
 use crate::vector::Vec2;
 
-use std::collections::HashMap;
-use std::hash::Hash;
+
 use crate::GResult;
 
 #[derive(Copy, Clone,Debug)]
@@ -35,7 +34,6 @@ pub struct Sprite {
 
 pub struct SpriteSheet {
 
-    src:            String,
     sprite_size:    Vec2,
     sprites:        Vec<Sprite>,
     current_name:   Option<String>,
@@ -45,10 +43,9 @@ pub struct SpriteSheet {
 
 impl SpriteSheet {
 
-    pub fn new(src:&str,w:f32,h:f32) -> Self {
+    pub fn new(w:f32,h:f32) -> Self {
 
         Self {
-            src:            src.to_string(),
             sprite_size:    Vec2::new(w,h),
             sprites:        Vec::new(),
             current_name:   None,

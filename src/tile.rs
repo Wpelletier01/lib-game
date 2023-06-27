@@ -1,6 +1,4 @@
 
-use crate::shape::Rect;
-
 
 pub struct TileInfo {
 
