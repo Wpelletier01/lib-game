@@ -3,7 +3,7 @@ use crate::shape::{Circle,Rect,Polygon,Shape};
 use crate::vector::Vec2;
 
 
-
+/// evaluate collision between two circle
 pub fn circle_vs_circle(c1:&Circle,c2:&Circle) -> bool {
 
     let mut a = (c1.get_x() - c2.get_x()).abs();
@@ -16,7 +16,6 @@ pub fn circle_vs_circle(c1:&Circle,c2:&Circle) -> bool {
     let c = (a+b).sqrt();
 
     if c < (c1.get_radius() + c2.get_radius()) {
-        println!("hey");
         return true;
     }
 
@@ -24,7 +23,7 @@ pub fn circle_vs_circle(c1:&Circle,c2:&Circle) -> bool {
 
 }
 
-
+/// evaluate collision between a rectangle and a circle
 pub fn rect_vs_circle(r:&Rect,c:&Circle) -> bool {
 
 
@@ -56,16 +55,19 @@ pub fn rect_vs_circle(r:&Rect,c:&Circle) -> bool {
 
 }
 
+/// evaluate collision between two rectangle on the horizontal axis
 pub fn rect_vs_rect_horizontally(r1:&Rect,r2:&Rect,dx:f32) -> bool {
     r1.get_max_x() + dx > r2.get_x() && r1.get_x()  + dx < r2.get_max_x() &&
         r1.get_max_y() > r2.get_y() && r1.get_y() < r2.get_max_y()
 }
 
+/// evaluate collision between two rectangle on the vertical axis
 pub fn rect_vs_rect_vertically(r1:&Rect,r2:&Rect,dy:f32) -> bool {
     r1.get_max_x() > r2.get_x() && r1.get_x() < r2.get_max_x() &&
         r1.get_max_y() + dy > r2.get_y() && r1.get_y() + dy < r2.get_max_y()
 }
 
+/// evaluate collision between two rectangle
 pub fn rect_vs_rect(r1:&Rect,r2:&Rect) -> bool {
 
     if r1.get_max_x() > r2.get_x() && r1.get_x() < r2.get_max_x()
@@ -77,37 +79,12 @@ pub fn rect_vs_rect(r1:&Rect,r2:&Rect) -> bool {
     false
 }
 
-
-pub fn rect_from_right(r1_before:&Rect,r1_after:&Rect,r2:&Rect) -> bool {
-    r1_before.get_x() >= r2.get_max_x() && r1_after.get_x() < r2.get_max_x()
-}
-pub fn rect_from_left(r1_before:&Rect,r1_after:&Rect,r2:&Rect) -> bool {
-    r1_before.get_max_x() < r2.get_x() && r1_after.get_max_x() >= r2.get_x()
-}
-pub fn rect_from_top(r1_before:&Rect,r1_after:&Rect,r2:&Rect) -> bool {
-    r1_before.get_max_y()  < r2.get_y() && r1_after.get_max_y() >= r2.get_y()
-}
-pub fn rect_from_bottom(r1_before:&Rect,r1_after:&Rect,r2:&Rect) -> bool {
-    r1_before.get_max_y() < r2.get_y() && r1_after.get_max_y() > r2.get_y()
-}
-
-pub fn rect_vs_point(r1:&Rect,p1:&Vec2) -> bool {
-    p1.x >= r1.get_x() && p1.x <= r1.get_max_x() && p1.y >= r1.get_y() && p1.y <= r1.get_max_y()
-}
-
-
-
-
-
-
-
-
-
+/// evaluate collision between a polygon and an axis point
 pub fn poly_vs_point(vertex:Vec<Vec2>,pt:&Vec2) -> bool {
 
     let length = vertex.len();
     let mut next = 0;
-    let mut collid = false;
+    let mut collide = false;
 
     for i in 0..length {
 
@@ -125,7 +102,7 @@ pub fn poly_vs_point(vertex:Vec<Vec2>,pt:&Vec2) -> bool {
         if ((vc.x > pt.y && vn.y < pt.y) || (vc.y < pt.y && vn.y > pt.y)) &&
             (pt.x < (vn.x - vc.x) * (pt.y-vc.y) / (vn.y - vc.y)+ vc.x) {
             // flip the boolean
-            collid = !collid;
+            collide = !collide;
 
         }
 
@@ -133,6 +110,31 @@ pub fn poly_vs_point(vertex:Vec<Vec2>,pt:&Vec2) -> bool {
     }
 
 
-    collid
+    collide
 
 }
+
+/// evaluate collision between rectangle and an axis point
+pub fn rect_vs_point(r1:&Rect,p1:&Vec2) -> bool {
+    p1.x >= r1.get_x() && p1.x <= r1.get_max_x() && p1.y >= r1.get_y() && p1.y <= r1.get_max_y()
+}
+
+
+pub fn rect_from_right(r1_before:&Rect,r1_after:&Rect,r2:&Rect) -> bool {
+    r1_before.get_x() >= r2.get_max_x() && r1_after.get_x() < r2.get_max_x()
+}
+pub fn rect_from_left(r1_before:&Rect,r1_after:&Rect,r2:&Rect) -> bool {
+    r1_before.get_max_x() < r2.get_x() && r1_after.get_max_x() >= r2.get_x()
+}
+pub fn rect_from_top(r1_before:&Rect,r1_after:&Rect,r2:&Rect) -> bool {
+    r1_before.get_max_y()  < r2.get_y() && r1_after.get_max_y() >= r2.get_y()
+}
+pub fn rect_from_bottom(r1_before:&Rect,r1_after:&Rect,r2:&Rect) -> bool {
+    r1_before.get_max_y() < r2.get_y() && r1_after.get_max_y() > r2.get_y()
+}
+
+
+
+
+
+
